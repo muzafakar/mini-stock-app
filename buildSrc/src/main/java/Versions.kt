@@ -15,6 +15,7 @@ object Versions {
     const val composeDestination = "1.5.13-beta"
     const val retrofit = "2.9.0"
     const val gson = "2.9.1"
+    const val hilt = "2.38.1"
 
     //test
     const val junit = "4.13.2"

@@ -1,6 +1,8 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object AppDependencies {
+    const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
+
     private object Android {
         const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycleKtx}"
@@ -31,6 +33,11 @@ object AppDependencies {
             "io.github.raamcosta.compose-destinations:ksp:${Versions.composeDestination}"
     }
 
+    private object Hilt{
+        const val core = "com.google.dagger:hilt-android:${Versions.hilt}"
+        const val compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    }
+
 
     private val gson = "com.google.code.gson:gson:${Versions.gson}"
     private val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
@@ -53,6 +60,7 @@ object AppDependencies {
         add(Compose.destination)
         add(retrofit)
         add(gson)
+        add(Hilt.compiler)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
@@ -72,6 +80,10 @@ object AppDependencies {
 
     val symbolicLibraries = arrayListOf<String>().apply {
         add(Compose.destinationKsp)
+    }
+
+    val annotatedLibraries = arrayListOf<String>().apply {
+        add(Hilt.core)
     }
 }
 

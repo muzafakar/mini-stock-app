@@ -1,8 +1,12 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
     id("com.google.devtools.ksp") version Versions.ksp
     id("kotlinx-serialization")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -47,6 +51,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(AppDependencies.appLibraries)
     ksp(AppDependencies.symbolicLibraries)
+    kapt(AppDependencies.annotatedLibraries)
     testImplementation(AppDependencies.testLibraries)
     androidTestImplementation(AppDependencies.androidTestLibraries)
     debugImplementation(AppDependencies.debugLibraries)
