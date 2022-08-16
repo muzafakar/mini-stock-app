@@ -12,6 +12,7 @@ object AppDependencies {
     private object Kotlin {
         const val coroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+        val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
         const val serialization =
             "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
     }
@@ -39,8 +40,9 @@ object AppDependencies {
     }
 
 
-    private val gson = "com.google.code.gson:gson:${Versions.gson}"
     private val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    private val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    private val serializatoinConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinSerializationConverter}"
 
     private val junit = "junit:junit:${Versions.junit}"
     private val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -59,8 +61,9 @@ object AppDependencies {
         add(Compose.viewModel)
         add(Compose.destination)
         add(retrofit)
-        add(gson)
-        add(Hilt.compiler)
+        add(serializatoinConverter)
+        add(gsonConverter)
+        add(Hilt.core)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
@@ -71,6 +74,7 @@ object AppDependencies {
 
     val testLibraries = arrayListOf<String>().apply {
         add(junit)
+        add(Kotlin.test)
     }
 
     val debugLibraries = arrayListOf<String>().apply {
@@ -83,7 +87,7 @@ object AppDependencies {
     }
 
     val annotatedLibraries = arrayListOf<String>().apply {
-        add(Hilt.core)
+        add(Hilt.compiler)
     }
 }
 

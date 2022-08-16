@@ -11,7 +11,6 @@ plugins {
 
 android {
     compileSdk = AppConfig.compileSdk
-//    buildToolsVersion(AppConfig.buildToolsVersion)
 
     defaultConfig {
         applicationId = "com.yildiz.ministockapp"
@@ -46,6 +45,8 @@ android {
     buildFeatures.compose = true
     composeOptions.kotlinCompilerExtensionVersion = "1.1.1"
 }
+
+kapt.correctErrorTypes = true
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
