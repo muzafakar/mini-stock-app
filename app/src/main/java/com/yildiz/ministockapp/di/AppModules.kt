@@ -1,8 +1,12 @@
 package com.yildiz.ministockapp.di
 
+import com.yildiz.ministockapp.StockRepository
+import com.yildiz.ministockapp.StockRepositoryImpl
 import com.yildiz.ministockapp.api.NewsApi
 import com.yildiz.ministockapp.usecase.NewsUseCase
 import com.yildiz.ministockapp.usecase.NewsUseCaseImpl
+import com.yildiz.ministockapp.usecase.StockUseCase
+import com.yildiz.ministockapp.usecase.StockUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -33,4 +37,10 @@ object AppModules {
 abstract class UseCaseModule {
     @Binds
     abstract fun bindNewsUseCase(newsUseCaseImpl: NewsUseCaseImpl): NewsUseCase
+
+    @Binds
+    abstract fun bindStockRepository(stockRepositoryImpl: StockRepositoryImpl): StockRepository
+
+    @Binds
+    abstract fun bindStockUseCase(stockUseCaseImpl: StockUseCaseImpl): StockUseCase
 }

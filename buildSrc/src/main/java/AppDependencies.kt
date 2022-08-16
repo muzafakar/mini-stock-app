@@ -43,6 +43,7 @@ object AppDependencies {
     private val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     private val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
     private val serializatoinConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinSerializationConverter}"
+    private val csvReader = "com.github.doyaaaaaken:kotlin-csv-jvm:${Versions.csvReader}"
 
     private val junit = "junit:junit:${Versions.junit}"
     private val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -64,6 +65,7 @@ object AppDependencies {
         add(serializatoinConverter)
         add(gsonConverter)
         add(Hilt.core)
+        add(csvReader)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
