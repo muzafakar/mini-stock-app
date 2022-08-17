@@ -14,7 +14,6 @@ class StockRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : StockRepository {
 
-
     override suspend fun loadStocks(): List<Ticker> {
         val tickers = mutableListOf<Ticker>()
         val csvFile = context.assets.open("stocks.csv")
