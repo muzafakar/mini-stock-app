@@ -14,12 +14,18 @@ import javax.inject.Inject
 class ArticleViewModel @Inject constructor(
     private val newsUseCse: ArticleUseCase
 ) : ViewModel() {
-    private val _article = MutableStateFlow<List<List<Article>>>(emptyList())
-    val article: StateFlow<List<List<Article>>> = _article
+    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    val uiState: StateFlow<UiState> = _uiState
 
     fun loadGroupedArticles() {
         viewModelScope.launch {
-            _article.value = newsUseCse.getArticles().chunked(6)
+            val data = newsUseCse.getArticles().chunked(6)
+            _uiState.value = UiState.DataLoaded(data)
         }
+    }
+
+    sealed class UiState {
+        object Loading : UiState()
+        data class DataLoaded(val data: List<List<Article>>) : UiState()
     }
 }

@@ -6,12 +6,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -30,7 +32,7 @@ import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 @OptIn(ExperimentalSnapperApi::class)
 @Composable
 fun ArticleSection(articleViewModel: ArticleViewModel = viewModel()) {
-    val news = articleViewModel.article.collectAsState()
+    val uiState = articleViewModel.uiState.collectAsState()
     val lazyListState = rememberLazyListState()
 
     LaunchedEffect(key1 = Unit) {
@@ -44,19 +46,29 @@ fun ArticleSection(articleViewModel: ArticleViewModel = viewModel()) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(
-                horizontal = 16.dp,
-                vertical = 12.dp
-            ),
-            state = lazyListState,
-            flingBehavior = rememberSnapperFlingBehavior(lazyListState),
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            items(news.value) {
-                ArticleGroup(articles = it)
+
+        when (uiState.value) {
+            is ArticleViewModel.UiState.DataLoaded -> {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(
+                        horizontal = 16.dp,
+                        vertical = 12.dp
+                    ),
+                    state = lazyListState,
+                    flingBehavior = rememberSnapperFlingBehavior(lazyListState),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    val articleGroups = (uiState.value as ArticleViewModel.UiState.DataLoaded).data
+                    items(articleGroups) {
+                        ArticleGroup(articles = it)
+                    }
+                }
+
+            }
+            ArticleViewModel.UiState.Loading -> {
+                CircularProgressIndicator(modifier = Modifier.align(CenterHorizontally))
             }
         }
     }
