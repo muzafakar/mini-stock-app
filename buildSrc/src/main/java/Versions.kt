@@ -18,6 +18,9 @@ object Versions {
     const val hilt = "2.38.1"
     const val csvReader = "1.6.0"
     const val composeChart = "v1.0"
+    const val coil = "2.2.0"
+    const val composePager = "0.26.1-alpha"
+    const val snapper = "v0.2.2"
 
     //test
     const val junit = "4.13.2"

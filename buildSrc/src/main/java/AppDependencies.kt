@@ -45,6 +45,9 @@ object AppDependencies {
     private val serializatoinConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinSerializationConverter}"
     private val csvReader = "com.github.doyaaaaaken:kotlin-csv-jvm:${Versions.csvReader}"
     private val composeChart = "com.github.jaikeerthick:Composable-Graphs:${Versions.composeChart}"
+    private val coil = "io.coil-kt:coil-compose:${Versions.coil}"
+    private val composePager = "com.google.accompanist:accompanist-pager:${Versions.composePager}"
+    private val snapper = "dev.chrisbanes.snapper:snapper:${Versions.snapper}"
 
     private val junit = "junit:junit:${Versions.junit}"
     private val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -68,6 +71,9 @@ object AppDependencies {
         add(Hilt.core)
         add(csvReader)
         add(composeChart)
+        add(composePager)
+        add(coil)
+        add(snapper)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
