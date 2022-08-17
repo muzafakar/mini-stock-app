@@ -44,6 +44,7 @@ object AppDependencies {
     private val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
     private val serializatoinConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinSerializationConverter}"
     private val csvReader = "com.github.doyaaaaaken:kotlin-csv-jvm:${Versions.csvReader}"
+    private val composeChart = "com.github.jaikeerthick:Composable-Graphs:${Versions.composeChart}"
 
     private val junit = "junit:junit:${Versions.junit}"
     private val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -66,6 +67,7 @@ object AppDependencies {
         add(gsonConverter)
         add(Hilt.core)
         add(csvReader)
+        add(composeChart)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
