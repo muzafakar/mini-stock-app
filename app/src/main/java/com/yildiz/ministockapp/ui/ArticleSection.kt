@@ -2,6 +2,7 @@ package com.yildiz.ministockapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -15,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.yildiz.ministockapp.model.Article
+import com.yildiz.ministockapp.util.Const.MAX_FULL_ARTICLE
 import com.yildiz.ministockapp.util.getFormattedDate
 import com.yildiz.ministockapp.viewModel.ArticleViewModel
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
@@ -60,10 +63,14 @@ fun ArticleSection(articleViewModel: ArticleViewModel = viewModel()) {
                     verticalAlignment = Alignment.Top,
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    val articleGroups = (uiState.value as ArticleViewModel.UiState.DataLoaded).data
-                    items(articleGroups) {
-                        ArticleGroup(articles = it)
+                    val articles = (uiState.value as ArticleViewModel.UiState.DataLoaded).data
+
+                    val fullArticle = articles.take(MAX_FULL_ARTICLE)
+                    items(fullArticle) {
+                        FullArticleItem(article = it)
                     }
+                    val groupedArticles = articles.subList(MAX_FULL_ARTICLE, articles.lastIndex)
+                    item { ArticleGroup(articles = groupedArticles) }
                 }
 
             }
@@ -80,12 +87,64 @@ private fun ArticleGroup(articles: List<Article>, modifier: Modifier = Modifier)
     Column(
         modifier = modifier
             .width(300.dp)
+            .height(300.dp)
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
     ) {
-        articles.forEach {
-            ArticleItem(article = it)
-            Divider()
+        LazyColumn{
+            items(articles){
+                ArticleItem(article = it)
+                Divider()
+            }
         }
+    }
+}
+
+@Composable
+private fun FullArticleItem(article: Article, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .width(300.dp)
+            .height(300.dp)
+            .background(color = Color.White, shape = RoundedCornerShape(10.dp))
+            .padding(bottom = 8.dp)
+    ) {
+        AsyncImage(
+            model = article.urlToImage,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(topEnd = 10.dp, topStart = 10.dp))
+                .height(150.dp),
+            contentScale = ContentScale.Crop
+        )
+        Text(
+            text = article.title,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .padding(top = 8.dp)
+        )
+
+
+        Spacer(Modifier.size(12.dp))
+        Text(
+            text = article.description,
+            fontWeight = FontWeight.Normal,
+            fontSize = 10.sp,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
+
+        val caption =
+            listOf(article.source.name, article.getFormattedDate()).joinToString(" • ")
+        Text(
+            text = caption,
+            fontWeight = FontWeight.Normal,
+            fontSize = 10.sp,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
     }
 }
 

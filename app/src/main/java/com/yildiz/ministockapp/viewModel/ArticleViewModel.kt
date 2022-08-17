@@ -19,13 +19,13 @@ class ArticleViewModel @Inject constructor(
 
     fun loadGroupedArticles() {
         viewModelScope.launch {
-            val data = newsUseCse.getArticles().chunked(6)
+            val data = newsUseCse.getArticles()
             _uiState.value = UiState.DataLoaded(data)
         }
     }
 
     sealed class UiState {
         object Loading : UiState()
-        data class DataLoaded(val data: List<List<Article>>) : UiState()
+        data class DataLoaded(val data: List<Article>) : UiState()
     }
 }
