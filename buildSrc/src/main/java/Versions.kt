@@ -21,6 +21,7 @@ object Versions {
     const val coil = "2.2.0"
     const val composePager = "0.26.1-alpha"
     const val snapper = "v0.2.2"
+    const val mockWebServer = "4.10.0"
 
     //test
     const val junit = "4.13.2"

@@ -53,6 +53,7 @@ object AppDependencies {
     private val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
     private val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     private val mockk = "io.mockk:mockk:${Versions.mockk}"
+    private val okHttpMockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.mockWebServer}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(Android.coreKtx)
@@ -87,6 +88,7 @@ object AppDependencies {
         add(junit)
         add(Kotlin.test)
         add(mockk)
+        add(okHttpMockWebServer)
     }
 
     val debugLibraries = arrayListOf<String>().apply {
