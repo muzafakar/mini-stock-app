@@ -1,8 +1,8 @@
 package com.yildiz.ministockapp.usecase
 
-import com.yildiz.ministockapp.StockRepository
-import com.yildiz.ministockapp.model.Ticker
-import com.yildiz.ministockapp.model.TickerWithPriceHistory
+import com.yildiz.ministockapp.model.StockRepository
+import com.yildiz.ministockapp.model.Stock
+import com.yildiz.ministockapp.model.StockWithPriceHistory
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
@@ -40,10 +40,10 @@ class StockUseCaseImplTest {
     fun `get unique stocks should return unique stocks with first price`() = runTest {
         stubAllStock()
         val expected = listOf(
-            Ticker("TSLA", 123.123),
-            Ticker("GOOG", 123.123),
-            Ticker("NVDA", 123.123),
-            Ticker("AAPL", 123.123)
+            Stock("TSLA", 123.123),
+            Stock("GOOG", 123.123),
+            Stock("NVDA", 123.123),
+            Stock("AAPL", 123.123)
         )
 
         val uniqueStocks = stockUseCase.getUniqueStocks()
@@ -56,13 +56,13 @@ class StockUseCaseImplTest {
         runTest {
             stubAllStock()
             val expected = listOf(
-                TickerWithPriceHistory("TSLA", listOf(123.123, 456.123, 789.123)),
-                TickerWithPriceHistory("GOOG", listOf(123.123, 456.123, 789.123)),
-                TickerWithPriceHistory("NVDA", listOf(123.123, 456.123, 789.123)),
-                TickerWithPriceHistory("AAPL", listOf(123.123, 456.123, 789.123))
+                StockWithPriceHistory("TSLA", listOf(123.123, 456.123, 789.123)),
+                StockWithPriceHistory("GOOG", listOf(123.123, 456.123, 789.123)),
+                StockWithPriceHistory("NVDA", listOf(123.123, 456.123, 789.123)),
+                StockWithPriceHistory("AAPL", listOf(123.123, 456.123, 789.123))
             )
 
-            val stockWithPriceHistory = stockUseCase.getAllStocksWithHistory(3)
+            val stockWithPriceHistory = stockUseCase.getAllStocksWithPriceHistory(3)
 
             assertEquals(expected, stockWithPriceHistory)
         }
@@ -72,17 +72,17 @@ class StockUseCaseImplTest {
     }
 
     private val dummyStocks = listOf(
-        Ticker("TSLA", 123.123),
-        Ticker("GOOG", 123.123),
-        Ticker("NVDA", 123.123),
-        Ticker("AAPL", 123.123),
-        Ticker("TSLA", 456.123),
-        Ticker("GOOG", 456.123),
-        Ticker("NVDA", 456.123),
-        Ticker("AAPL", 456.123),
-        Ticker("TSLA", 789.123),
-        Ticker("GOOG", 789.123),
-        Ticker("NVDA", 789.123),
-        Ticker("AAPL", 789.123)
+        Stock("TSLA", 123.123),
+        Stock("GOOG", 123.123),
+        Stock("NVDA", 123.123),
+        Stock("AAPL", 123.123),
+        Stock("TSLA", 456.123),
+        Stock("GOOG", 456.123),
+        Stock("NVDA", 456.123),
+        Stock("AAPL", 456.123),
+        Stock("TSLA", 789.123),
+        Stock("GOOG", 789.123),
+        Stock("NVDA", 789.123),
+        Stock("AAPL", 789.123)
     )
 }

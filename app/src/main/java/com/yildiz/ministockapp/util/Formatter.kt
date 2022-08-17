@@ -1,26 +1,30 @@
 package com.yildiz.ministockapp.util
 
 import com.yildiz.ministockapp.model.Article
-import com.yildiz.ministockapp.model.Ticker
-import com.yildiz.ministockapp.model.TickerWithPriceHistory
+import com.yildiz.ministockapp.model.Stock
+import com.yildiz.ministockapp.model.StockWithPriceHistory
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.*
 
-fun Ticker.getFormattedPrice(): String {
+fun Stock.getFormattedPrice(): String {
     val df = DecimalFormat("#.##").apply {
         roundingMode = RoundingMode.UP
     }
     return "${df.format(price)} USD"
 }
 
-fun TickerWithPriceHistory.getFormattedPrice(): String {
-    val df = DecimalFormat("#.##").apply {
-        roundingMode = RoundingMode.UP
+fun StockWithPriceHistory.getFormattedPrice(): String {
+    return runCatching {
+        val df = DecimalFormat("#.##").apply {
+            roundingMode = RoundingMode.UP
+        }
+        "${df.format(prices.last())} USD"
+    }.getOrElse {
+        "0.0 USD"
     }
-    return "${df.format(prices.last())} USD"
 }
 
 fun Article.getFormattedDate(): String {

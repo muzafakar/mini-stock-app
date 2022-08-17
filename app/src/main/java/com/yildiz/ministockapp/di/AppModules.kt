@@ -1,7 +1,7 @@
 package com.yildiz.ministockapp.di
 
-import com.yildiz.ministockapp.StockRepository
-import com.yildiz.ministockapp.StockRepositoryImpl
+import com.yildiz.ministockapp.model.StockRepository
+import com.yildiz.ministockapp.model.StockRepositoryImpl
 import com.yildiz.ministockapp.api.ArticleApi
 import com.yildiz.ministockapp.usecase.ArticleUseCase
 import com.yildiz.ministockapp.usecase.ArticleUseCaseImpl
