@@ -40,7 +40,7 @@ fun MainScreen() {
         ) {
             item { StockSection() }
             item { Spacer(modifier = Modifier.size(20.dp)) }
-            item { NewsSection() }
+            item { ArticleSection() }
             item { Spacer(modifier = Modifier.size(20.dp)) }
         }
     }

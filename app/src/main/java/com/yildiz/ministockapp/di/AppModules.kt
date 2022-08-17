@@ -2,9 +2,9 @@ package com.yildiz.ministockapp.di
 
 import com.yildiz.ministockapp.StockRepository
 import com.yildiz.ministockapp.StockRepositoryImpl
-import com.yildiz.ministockapp.api.NewsApi
-import com.yildiz.ministockapp.usecase.NewsUseCase
-import com.yildiz.ministockapp.usecase.NewsUseCaseImpl
+import com.yildiz.ministockapp.api.ArticleApi
+import com.yildiz.ministockapp.usecase.ArticleUseCase
+import com.yildiz.ministockapp.usecase.ArticleUseCaseImpl
 import com.yildiz.ministockapp.usecase.StockUseCase
 import com.yildiz.ministockapp.usecase.StockUseCaseImpl
 import dagger.Binds
@@ -13,7 +13,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.ExperimentalSerializationApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,12 +22,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 object AppModules {
 
     @Provides
-    fun provideNewsApi(): NewsApi {
+    fun provideNewsApi(): ArticleApi {
         return Retrofit.Builder()
             .baseUrl("https://saurav.tech/NewsAPI/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(NewsApi::class.java)
+            .create(ArticleApi::class.java)
     }
 }
 
@@ -36,7 +35,7 @@ object AppModules {
 @InstallIn(ViewModelComponent::class)
 abstract class UseCaseModule {
     @Binds
-    abstract fun bindNewsUseCase(newsUseCaseImpl: NewsUseCaseImpl): NewsUseCase
+    abstract fun bindNewsUseCase(newsUseCaseImpl: ArticleUseCaseImpl): ArticleUseCase
 
     @Binds
     abstract fun bindStockRepository(stockRepositoryImpl: StockRepositoryImpl): StockRepository

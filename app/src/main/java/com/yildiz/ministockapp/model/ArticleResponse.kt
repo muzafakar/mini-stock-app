@@ -3,7 +3,7 @@ package com.yildiz.ministockapp.model
 
 import com.google.gson.annotations.SerializedName
 
-data class News(
+data class ArticleResponse(
     @SerializedName("articles")
     val articles: List<Article>,
     @SerializedName("status")

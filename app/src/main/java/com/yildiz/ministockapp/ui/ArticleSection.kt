@@ -23,18 +23,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.yildiz.ministockapp.model.Article
 import com.yildiz.ministockapp.util.getFormattedDate
-import com.yildiz.ministockapp.viewModel.NewsViewModel
+import com.yildiz.ministockapp.viewModel.ArticleViewModel
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 
 @OptIn(ExperimentalSnapperApi::class)
 @Composable
-fun NewsSection(newsViewModel: NewsViewModel = viewModel()) {
-    val news = newsViewModel.article.collectAsState()
+fun ArticleSection(articleViewModel: ArticleViewModel = viewModel()) {
+    val news = articleViewModel.article.collectAsState()
     val lazyListState = rememberLazyListState()
 
     LaunchedEffect(key1 = Unit) {
-        newsViewModel.loadGroupedNews()
+        articleViewModel.loadGroupedArticles()
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -56,7 +56,7 @@ fun NewsSection(newsViewModel: NewsViewModel = viewModel()) {
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             items(news.value) {
-                NewsGroup(articles = it)
+                ArticleGroup(articles = it)
             }
         }
     }
@@ -64,21 +64,21 @@ fun NewsSection(newsViewModel: NewsViewModel = viewModel()) {
 }
 
 @Composable
-private fun NewsGroup(articles: List<Article>, modifier: Modifier = Modifier) {
+private fun ArticleGroup(articles: List<Article>, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .width(300.dp)
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
     ) {
         articles.forEach {
-            NewsItem(article = it)
+            ArticleItem(article = it)
             Divider()
         }
     }
 }
 
 @Composable
-private fun NewsItem(article: Article, modifier: Modifier = Modifier) {
+private fun ArticleItem(article: Article, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
