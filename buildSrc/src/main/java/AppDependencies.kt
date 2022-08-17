@@ -52,6 +52,7 @@ object AppDependencies {
     private val junit = "junit:junit:${Versions.junit}"
     private val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
     private val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    private val mockk = "io.mockk:mockk:${Versions.mockk}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(Android.coreKtx)
@@ -85,6 +86,7 @@ object AppDependencies {
     val testLibraries = arrayListOf<String>().apply {
         add(junit)
         add(Kotlin.test)
+        add(mockk)
     }
 
     val debugLibraries = arrayListOf<String>().apply {
