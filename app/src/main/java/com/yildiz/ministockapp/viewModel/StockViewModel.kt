@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yildiz.ministockapp.model.StockWithPriceHistory
 import com.yildiz.ministockapp.usecase.StockUseCase
+import com.yildiz.ministockapp.util.Const.MAX_VISIBLE_PRICE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +24,7 @@ class StockViewModel @Inject constructor(
 
     fun loadStock() {
         viewModelScope.launch {
-            val allStocks = stockUseCase.getAllStocksWithPriceHistory(20)
+            val allStocks = stockUseCase.getAllStocksWithPriceHistory(MAX_VISIBLE_PRICE)
             _stocks.value = allStocks
         }
     }

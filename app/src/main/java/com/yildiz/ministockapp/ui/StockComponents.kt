@@ -26,6 +26,7 @@ import com.jaikeerthick.composable_graphs.data.GraphData
 import com.jaikeerthick.composable_graphs.style.LineGraphStyle
 import com.jaikeerthick.composable_graphs.style.LinearGraphVisibility
 import com.yildiz.ministockapp.model.StockWithPriceHistory
+import com.yildiz.ministockapp.util.Const.MAX_VISIBLE_PRICE
 import com.yildiz.ministockapp.util.getFormattedPrice
 import com.yildiz.ministockapp.viewModel.StockViewModel
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
@@ -133,12 +134,15 @@ private fun StockChart(prices: List<Double>) {
             isCrossHairVisible = false
         ),
         height = 50.dp,
-        colors = graphLineColor
+        colors = graphLineColor,
+        paddingValues = PaddingValues(0.dp)
     )
 
+    val data = prices.takeLast(MAX_VISIBLE_PRICE)
+
     LineGraph(
-        xAxisData = prices.map { GraphData.Number(it) },
-        yAxisData = prices,
+        xAxisData = data.map { GraphData.Number(it) },
+        yAxisData = data,
         style = graphStyle
     )
 }
