@@ -17,6 +17,7 @@ object Versions {
     const val kotlinSerializationConverter = "0.8.0"
     const val hilt = "2.38.1"
     const val csvReader = "1.6.0"
+    const val composeChart = "v1.0"
 
     //test
     const val junit = "4.13.2"
