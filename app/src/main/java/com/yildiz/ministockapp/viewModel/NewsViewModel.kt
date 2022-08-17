@@ -2,6 +2,7 @@ package com.yildiz.ministockapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yildiz.ministockapp.model.Article
 import com.yildiz.ministockapp.usecase.NewsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,12 +16,12 @@ import kotlin.random.Random
 class NewsViewModel @Inject constructor(
     private val newsUseCse: NewsUseCase
 ) : ViewModel() {
-    private val _article = MutableStateFlow("")
-    val article: StateFlow<String> = _article
+    private val _article = MutableStateFlow<List<List<Article>>>(emptyList())
+    val article: StateFlow<List<List<Article>>> = _article
 
-    fun getFirstNews() {
+    fun loadGroupedNews() {
         viewModelScope.launch {
-            _article.value = newsUseCse.getNews().articles.random(Random(Date().time)).title
+            _article.value = newsUseCse.getNews().articles.chunked(6)
         }
     }
 }

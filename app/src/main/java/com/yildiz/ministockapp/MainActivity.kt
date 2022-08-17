@@ -5,12 +5,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.yildiz.ministockapp.ui.screen.MyChart
+import com.yildiz.ministockapp.ui.screen.NewsSection
 import com.yildiz.ministockapp.ui.screen.StockSection
 import com.yildiz.ministockapp.ui.screen.lineChartData
 import com.yildiz.ministockapp.ui.theme.MiniStockAppTheme
@@ -38,8 +42,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-
     Column(modifier = Modifier.fillMaxSize()) {
         StockSection()
+        Spacer(modifier = Modifier.size(20.dp))
+        NewsSection()
     }
 }
