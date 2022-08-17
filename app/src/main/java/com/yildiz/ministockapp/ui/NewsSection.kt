@@ -1,4 +1,4 @@
-package com.yildiz.ministockapp.ui.screen
+package com.yildiz.ministockapp.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.yildiz.ministockapp.model.Article
+import com.yildiz.ministockapp.util.getFormattedDate
 import com.yildiz.ministockapp.viewModel.NewsViewModel
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
-
 
 @OptIn(ExperimentalSnapperApi::class)
 @Composable
@@ -38,14 +38,17 @@ fun NewsSection(newsViewModel: NewsViewModel = viewModel()) {
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "Trending", fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
+        Text(
+            text = "Trending",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(
-                start = 16.dp,
-                top = 24.dp,
-                end = 12.dp,
-                bottom = 32.dp
+                horizontal = 16.dp,
+                vertical = 12.dp
             ),
             state = lazyListState,
             flingBehavior = rememberSnapperFlingBehavior(lazyListState),
@@ -96,7 +99,8 @@ private fun NewsItem(article: Article, modifier: Modifier = Modifier) {
                 fontWeight = FontWeight.SemiBold
             )
 
-            val caption = listOf(article.source.name, article.publishedAt).joinToString(" • ")
+            val caption =
+                listOf(article.source.name, article.getFormattedDate()).joinToString(" • ")
             Text(text = caption, fontWeight = FontWeight.Normal, fontSize = 10.sp)
         }
 

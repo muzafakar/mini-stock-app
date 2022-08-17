@@ -1,6 +1,5 @@
-package com.yildiz.ministockapp.ui.screen
+package com.yildiz.ministockapp.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -28,41 +27,80 @@ import com.jaikeerthick.composable_graphs.style.LinearGraphVisibility
 import com.yildiz.ministockapp.model.TickerWithPriceHistory
 import com.yildiz.ministockapp.util.getFormattedPrice
 import com.yildiz.ministockapp.viewModel.StockViewModel
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
+import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
+
+@OptIn(ExperimentalSnapperApi::class)
+@Composable
+fun StockSection(stockViewModel: StockViewModel = viewModel()) {
+    val stocks = stockViewModel.stocks.collectAsState()
+    val lazyListState = rememberLazyListState()
+
+    LaunchedEffect(Unit) {
+        stockViewModel.loadStock()
+    }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = "Watch list",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(
+                horizontal = 16.dp,
+                vertical = 12.dp
+            ),
+            state = lazyListState,
+            flingBehavior = rememberSnapperFlingBehavior(lazyListState),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            items(stocks.value) { stock ->
+                StockItem(ticker = stock, modifier = Modifier.weight(1f))
+            }
+        }
+    }
+}
+
 
 @Composable
-fun StockItem(ticker: TickerWithPriceHistory, modifier: Modifier) {
-     var brush: Brush = getBackgroundGradient()
-     LaunchedEffect(key1 = ticker) {
-         brush = getBackgroundGradient()
-     }
+private fun StockItem(ticker: TickerWithPriceHistory, modifier: Modifier) {
+    var brush: Brush = getBackgroundGradient()
+    LaunchedEffect(key1 = ticker) {
+        brush = getBackgroundGradient()
+    }
 
-     Column(
-         modifier = Modifier
-             .width(150.dp)
-             .height(200.dp)
-             .background(
-                 brush = brush,
-                 shape = RoundedCornerShape(10.dp)
-             )
-     ) {
-         Text(
-             text = ticker.symbol,
-             color = Color.White,
-             fontWeight = FontWeight.SemiBold,
-             modifier = Modifier.padding(top = 16.dp, start = 16.dp)
-         )
-         Spacer(modifier = Modifier.size(10.dp))
-         StockPrice(
-             price = ticker.getFormattedPrice(),
-             modifier = Modifier.align(CenterHorizontally)
-         )
-         Spacer(modifier = Modifier.size(10.dp))
- //        StockChart(ticker.prices)
-     }
+    Column(
+        modifier = Modifier
+            .width(150.dp)
+            .height(200.dp)
+            .background(
+                brush = brush,
+                shape = RoundedCornerShape(10.dp)
+            )
+    ) {
+        Text(
+            text = ticker.symbol,
+            color = Color.White,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+        )
+        Spacer(modifier = Modifier.size(10.dp))
+        StockPrice(
+            price = ticker.getFormattedPrice(),
+            modifier = Modifier.align(CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.size(10.dp))
+        //        StockChart(ticker.prices)
+    }
 }
 
 @Composable
-fun StockChart(prices: List<Double>) {
+private fun StockChart(prices: List<Double>) {
     val graphLineColor = LinearGraphColors(
         lineColor = Color.White,
         pointColor = Color.Transparent,
@@ -88,7 +126,7 @@ fun StockChart(prices: List<Double>) {
 }
 
 @Composable
-fun StockPrice(price: String, modifier: Modifier = Modifier) {
+private fun StockPrice(price: String, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .wrapContentWidth()
@@ -96,33 +134,6 @@ fun StockPrice(price: String, modifier: Modifier = Modifier) {
             .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         Text(text = price, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
-    }
-}
-
-@Composable
-fun StockSection(stockViewModel: StockViewModel = viewModel()) {
-    val stocks = stockViewModel.stocks.collectAsState()
-    stockViewModel.loadStock()
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "Trending", fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
-
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(
-                start = 16.dp,
-                top = 24.dp,
-                end = 12.dp,
-                bottom = 32.dp
-            ),
-            state = rememberLazyListState(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            items(stocks.value) { stock ->
-                StockItem(ticker = stock, modifier = Modifier.weight(1f))
-            }
-        }
     }
 }
 
