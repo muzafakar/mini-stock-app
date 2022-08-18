@@ -1,6 +1,7 @@
 package com.yildiz.ministockapp.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -67,10 +68,16 @@ fun ArticleSection(articleViewModel: ArticleViewModel = viewModel()) {
 
                     val fullArticle = articles.take(MAX_FULL_ARTICLE)
                     items(fullArticle) {
-                        FullArticleItem(article = it)
+                        FullArticleItem(article = it) { articles ->
+                            articleViewModel.openArticleInBrowser(articles)
+                        }
                     }
                     val groupedArticles = articles.subList(MAX_FULL_ARTICLE, articles.lastIndex)
-                    item { ArticleGroup(articles = groupedArticles) }
+                    item {
+                        ArticleGroup(articles = groupedArticles) { articles ->
+                            articleViewModel.openArticleInBrowser(articles)
+                        }
+                    }
                 }
 
             }
@@ -83,16 +90,20 @@ fun ArticleSection(articleViewModel: ArticleViewModel = viewModel()) {
 }
 
 @Composable
-private fun ArticleGroup(articles: List<Article>, modifier: Modifier = Modifier) {
+private fun ArticleGroup(
+    articles: List<Article>,
+    modifier: Modifier = Modifier,
+    onArticleClick: (Article) -> Unit
+) {
     Column(
         modifier = modifier
             .width(300.dp)
             .height(300.dp)
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
     ) {
-        LazyColumn{
-            items(articles){
-                ArticleItem(article = it)
+        LazyColumn {
+            items(articles) {
+                ArticleItem(article = it, onClick = onArticleClick)
                 Divider()
             }
         }
@@ -100,12 +111,17 @@ private fun ArticleGroup(articles: List<Article>, modifier: Modifier = Modifier)
 }
 
 @Composable
-private fun FullArticleItem(article: Article, modifier: Modifier = Modifier) {
+private fun FullArticleItem(
+    article: Article,
+    modifier: Modifier = Modifier,
+    onClick: (Article) -> Unit
+) {
     Column(
         modifier = modifier
             .width(300.dp)
             .height(300.dp)
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
+            .clickable { onClick(article) }
             .padding(bottom = 8.dp)
     ) {
         AsyncImage(
@@ -149,10 +165,15 @@ private fun FullArticleItem(article: Article, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ArticleItem(article: Article, modifier: Modifier = Modifier) {
+private fun ArticleItem(
+    article: Article,
+    modifier: Modifier = Modifier,
+    onClick: (Article) -> Unit
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clickable { onClick(article) }
             .padding(8.dp)
     ) {
         Column(
